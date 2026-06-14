@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "student_inquiries",
+  "info": {
+    "singularName": "student-inquiry",
+    "pluralName": "student-inquiries",
+    "displayName": "Student Inquiry"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "studentName": { "type": "string", "required": true },
+    "email": { "type": "email", "required": true },
+    "country": { "type": "string", "required": true },
+    "questionMessage": { "type": "text", "required": true },
+    "status": { "type": "enumeration", "enum": ["new", "assigned", "answered", "closed"], "default": "new" },
+    "interestedProgram": { "type": "relation", "relation": "manyToOne", "target": "api::program.program", "inversedBy": "studentInquiries" },
+    "preferredLanguage": { "type": "relation", "relation": "manyToOne", "target": "api::language.language", "inversedBy": "studentInquiries" },
+    "assignedAmbassador": { "type": "relation", "relation": "manyToOne", "target": "api::ambassador.ambassador", "inversedBy": "assignedInquiries" }
+  }
+}

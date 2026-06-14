@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ambassadors",
+  "info": {
+    "singularName": "ambassador",
+    "pluralName": "ambassadors",
+    "displayName": "Ambassador"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "photo": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "degreeProgram": { "type": "string", "required": true },
+    "bio": { "type": "text", "required": true },
+    "contactPreference": { "type": "enumeration", "enum": ["email", "video_call", "chat"], "default": "email" },
+    "availability": { "type": "string" },
+    "status": { "type": "enumeration", "enum": ["draft", "active", "inactive"], "default": "draft" },
+    "programs": { "type": "relation", "relation": "manyToMany", "target": "api::program.program", "mappedBy": "ambassadors" },
+    "countries": { "type": "relation", "relation": "manyToMany", "target": "api::country.country", "mappedBy": "ambassadors" },
+    "languages": { "type": "relation", "relation": "manyToMany", "target": "api::language.language", "mappedBy": "ambassadors" },
+    "events": { "type": "relation", "relation": "manyToMany", "target": "api::event.event", "mappedBy": "ambassadors" },
+    "assignedInquiries": { "type": "relation", "relation": "oneToMany", "target": "api::student-inquiry.student-inquiry", "mappedBy": "assignedAmbassador" }
+  }
+}

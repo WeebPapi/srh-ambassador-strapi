@@ -1,0 +1,17 @@
+{
+  "kind": "collectionType",
+  "collectionName": "countries",
+  "info": {
+    "singularName": "country",
+    "pluralName": "countries",
+    "displayName": "Country / Region"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": { "type": "string", "required": true, "unique": true },
+    "languages": { "type": "relation", "relation": "manyToMany", "target": "api::language.language", "inversedBy": "countries" },
+    "ambassadors": { "type": "relation", "relation": "manyToMany", "target": "api::ambassador.ambassador", "inversedBy": "countries" }
+  }
+}

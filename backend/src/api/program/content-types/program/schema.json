@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "programs",
+  "info": {
+    "singularName": "program",
+    "pluralName": "programs",
+    "displayName": "Program"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "programName": { "type": "string", "required": true },
+    "degreeLevel": { "type": "enumeration", "enum": ["Bachelor", "Master", "MBA", "Certificate"], "required": true },
+    "department": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true },
+    "ambassadors": { "type": "relation", "relation": "manyToMany", "target": "api::ambassador.ambassador", "inversedBy": "programs" },
+    "studentInquiries": { "type": "relation", "relation": "oneToMany", "target": "api::student-inquiry.student-inquiry", "mappedBy": "interestedProgram" }
+  }
+}

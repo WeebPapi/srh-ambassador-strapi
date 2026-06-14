@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "Event"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "dateTime": { "type": "datetime", "required": true },
+    "locationOrLink": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true },
+    "eventType": { "type": "enumeration", "enum": ["online_qa", "campus_tour", "webinar", "welcome", "fair"], "required": true },
+    "ambassadors": { "type": "relation", "relation": "manyToMany", "target": "api::ambassador.ambassador", "inversedBy": "events" }
+  }
+}

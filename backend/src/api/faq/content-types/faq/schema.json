@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "faqs",
+  "info": {
+    "singularName": "faq",
+    "pluralName": "faqs",
+    "displayName": "FAQ"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "body": { "type": "richtext", "required": true },
+    "publishedStatus": { "type": "boolean", "default": true },
+    "category": { "type": "relation", "relation": "manyToOne", "target": "api::faq-category.faq-category", "inversedBy": "faqs" },
+    "language": { "type": "relation", "relation": "manyToOne", "target": "api::language.language", "inversedBy": "faqs" }
+  }
+}
