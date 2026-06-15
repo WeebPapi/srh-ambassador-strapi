@@ -174,11 +174,20 @@ details,
   border-radius: 50%;
   background: var(--accent-soft);
   color: var(--accent);
+  overflow: hidden;
+  border: 2px solid #ffffff;
+  box-shadow: 0 8px 18px rgba(65, 39, 25, 0.12);
 }
 
 .avatar.large {
   width: 90px;
   height: 90px;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .meta,

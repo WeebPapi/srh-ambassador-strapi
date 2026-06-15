@@ -5,6 +5,49 @@ import { fetchCollection, submitInquiry } from './api';
 import srhLogo from './assets/srh-logo.png';
 import './styles.css';
 
+const placeholderAvatars = [
+  '/avatars/avatar-1.png',
+  '/avatars/avatar-2.png',
+  '/avatars/avatar-3.png',
+  '/avatars/avatar-4.png',
+  '/avatars/avatar-5.png',
+  '/avatars/avatar-6.png',
+  '/avatars/avatar-7.png',
+  '/avatars/avatar-8.png',
+  '/avatars/avatar-9.png',
+  '/avatars/avatar-10.png',
+  '/avatars/avatar-11.png',
+];
+
+function getAmbassadorKey(ambassador) {
+  return String(ambassador.id || ambassador.documentId || ambassador.name || 'ambassador');
+}
+
+function getAvatarUrl(ambassador) {
+  const key = getAmbassadorKey(ambassador);
+  const hash = [...key].reduce((total, character) => total + character.charCodeAt(0), 0);
+  return placeholderAvatars[hash % placeholderAvatars.length];
+}
+
+function Avatar({ ambassador, large = false }) {
+  const [failed, setFailed] = useState(false);
+  const className = large ? 'avatar large' : 'avatar';
+
+  if (failed) {
+    return (
+      <div className={className}>
+        <UserRound size={large ? 46 : 28} />
+      </div>
+    );
+  }
+
+  return (
+    <div className={className}>
+      <img src={getAvatarUrl(ambassador)} alt="" loading="lazy" onError={() => setFailed(true)} />
+    </div>
+  );
+}
+
 function App() {
   const [data, setData] = useState({ ambassadors: [], programs: [], events: [], faqs: [] });
   const [path, setPath] = useState(window.location.pathname);
@@ -100,7 +143,7 @@ function Ambassadors({ ambassadors, query, setQuery, navigate }) {
       <section className="grid">
         {ambassadors.map((ambassador) => (
           <article className="card" key={ambassador.id || ambassador.documentId}>
-            <div className="avatar"><UserRound size={28} /></div>
+            <Avatar ambassador={ambassador} />
             <h2>{ambassador.name}</h2>
             <p>{ambassador.degreeProgram}</p>
             <div className="meta"><Languages size={16} /> English / German where available</div>
@@ -118,7 +161,7 @@ function AmbassadorDetail({ ambassador, navigate }) {
     <>
       <button className="back" onClick={() => navigate('/ambassadors')}>Back to ambassadors</button>
       <section className="detail">
-        <div className="avatar large"><UserRound size={46} /></div>
+        <Avatar ambassador={ambassador} large />
         <div>
           <p className="eyebrow">Ambassador profile</p>
           <h1>{ambassador.name}</h1>
