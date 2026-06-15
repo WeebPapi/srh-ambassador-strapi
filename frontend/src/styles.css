@@ -1,7 +1,14 @@
 :root {
   font-family: Inter, Arial, sans-serif;
-  color: #17202a;
-  background: #f5f7fa;
+  color: #221b17;
+  background: #faf7f3;
+  --accent: #e84200;
+  --accent-dark: #b73200;
+  --accent-soft: #fff0e8;
+  --ink: #221b17;
+  --muted: #665d57;
+  --line: #eadfd6;
+  --panel: #ffffff;
 }
 
 body {
@@ -25,7 +32,8 @@ textarea {
   gap: 20px;
   padding: 18px 32px;
   background: rgba(255, 255, 255, 0.96);
-  border-bottom: 1px solid #dfe5ec;
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 12px 28px rgba(65, 39, 25, 0.06);
 }
 
 .brand,
@@ -33,13 +41,27 @@ nav button,
 .back {
   border: 0;
   background: transparent;
-  color: #17202a;
+  color: var(--ink);
   cursor: pointer;
 }
 
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-weight: 800;
   font-size: 20px;
+}
+
+.brand img {
+  display: block;
+  width: 72px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.brand span {
+  color: var(--ink);
 }
 
 nav {
@@ -55,7 +77,8 @@ nav button {
 
 nav button:hover,
 .back:hover {
-  background: #e9eef4;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
 }
 
 main {
@@ -73,7 +96,7 @@ main {
 .page-title p,
 .eyebrow {
   margin: 0;
-  color: #566575;
+  color: var(--accent-dark);
   font-weight: 700;
   text-transform: uppercase;
   font-size: 13px;
@@ -96,9 +119,14 @@ h2 {
   gap: 10px;
   max-width: 520px;
   padding: 11px 14px;
-  background: #ffffff;
-  border: 1px solid #cfd8e2;
+  background: var(--panel);
+  border: 1px solid var(--line);
   border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(65, 39, 25, 0.05);
+}
+
+.search svg {
+  color: var(--accent);
 }
 
 .search input {
@@ -118,9 +146,10 @@ h2 {
 .detail,
 details,
 .form {
-  background: #ffffff;
-  border: 1px solid #dfe5ec;
+  background: var(--panel);
+  border: 1px solid var(--line);
   border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(65, 39, 25, 0.05);
 }
 
 .card {
@@ -133,7 +162,7 @@ details,
 .row p,
 .detail p {
   margin: 0;
-  color: #4d5c6b;
+  color: var(--muted);
   line-height: 1.55;
 }
 
@@ -143,8 +172,8 @@ details,
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: #e7f0f7;
-  color: #005ea8;
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .avatar.large {
@@ -166,8 +195,17 @@ details,
   border-radius: 6px;
   padding: 10px 12px;
   color: #ffffff;
-  background: #005ea8;
+  background: var(--accent);
   cursor: pointer;
+}
+
+.card button:hover,
+.form button:hover {
+  background: var(--accent-dark);
+}
+
+.row > svg {
+  color: var(--accent);
 }
 
 .list,
@@ -200,7 +238,7 @@ details,
 .detail-grid span {
   padding: 9px 11px;
   border-radius: 6px;
-  background: #f1f4f7;
+  background: var(--accent-soft);
 }
 
 details {
@@ -228,9 +266,16 @@ label {
 input,
 select,
 textarea {
-  border: 1px solid #c3ced9;
+  border: 1px solid #d7c7bc;
   border-radius: 6px;
   padding: 10px 11px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  outline: 3px solid var(--accent-soft);
 }
 
 textarea {
@@ -240,7 +285,7 @@ textarea {
 
 .status {
   margin: 0;
-  color: #566575;
+  color: var(--muted);
 }
 
 @media (max-width: 760px) {

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { CalendarDays, GraduationCap, Languages, Mail, MapPin, Search, UserRound } from 'lucide-react';
 import { fetchCollection, submitInquiry } from './api';
+import srhLogo from './assets/srh-logo.png';
 import './styles.css';
 
 function App() {
@@ -44,7 +45,10 @@ function App() {
   return (
     <div>
       <header className="topbar">
-        <button className="brand" onClick={() => navigate('/ambassadors')}>SRH Ambassadors</button>
+        <button className="brand" onClick={() => navigate('/ambassadors')} aria-label="SRH Ambassadors home">
+          <img src={srhLogo} alt="SRH" />
+          <span>Ambassadors</span>
+        </button>
         <nav>
           <button onClick={() => navigate('/ambassadors')}>Ambassadors</button>
           <button onClick={() => navigate('/programs')}>Programs</button>
@@ -140,7 +144,7 @@ function Programs({ programs }) {
             <GraduationCap size={22} />
             <div>
               <h2>{program.programName}</h2>
-              <p>{program.degreeLevel} · {program.department}</p>
+              <p>{program.degreeLevel} - {program.department}</p>
               <p>{program.description}</p>
             </div>
           </article>
@@ -160,7 +164,7 @@ function Events({ events }) {
             <CalendarDays size={22} />
             <div>
               <h2>{event.title}</h2>
-              <p>{new Date(event.dateTime).toLocaleString()} · {String(event.eventType).replace('_', ' ')}</p>
+              <p>{new Date(event.dateTime).toLocaleString()} - {String(event.eventType).replace('_', ' ')}</p>
               <p><MapPin size={15} /> {event.locationOrLink}</p>
               <p>{event.description}</p>
             </div>
