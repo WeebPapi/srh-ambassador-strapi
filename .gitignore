@@ -5,6 +5,8 @@ node_modules/
 .strapi-updater.json
 dist/
 build/
+backend/types/
 database/
-public/uploads/
+backend/public/uploads/*
+!backend/public/uploads/.gitkeep
 *.log
