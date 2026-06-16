@@ -5,9 +5,12 @@ exports.default = {
         const publicRole = await strapi
             .query('plugin::users-permissions.role')
             .findOne({ where: { type: 'public' } });
-        if (!publicRole) {
-            return;
-        }
+        const authenticatedRole = await strapi
+            .query('plugin::users-permissions.role')
+            .findOne({ where: { type: 'authenticated' } });
+        const roles = [publicRole, authenticatedRole].filter(Boolean);
+        if (!roles.length) return;
+
         const publicPermissions = {
             'api::ambassador.ambassador': ['find', 'findOne'],
             'api::program.program': ['find', 'findOne'],
@@ -18,19 +21,21 @@ exports.default = {
             'api::faq-category.faq-category': ['find', 'findOne'],
             'api::student-inquiry.student-inquiry': ['create'],
         };
-        for (const [contentType, actions] of Object.entries(publicPermissions)) {
-            for (const action of actions) {
-                const permission = await strapi.query('plugin::users-permissions.permission').findOne({
-                    where: {
-                        role: publicRole.id,
-                        action: `${contentType}.${action}`,
-                    },
-                });
-                if (permission && !permission.enabled) {
-                    await strapi.query('plugin::users-permissions.permission').update({
-                        where: { id: permission.id },
-                        data: { enabled: true },
+        for (const role of roles) {
+            for (const [contentType, actions] of Object.entries(publicPermissions)) {
+                for (const action of actions) {
+                    const permission = await strapi.query('plugin::users-permissions.permission').findOne({
+                        where: {
+                            role: role.id,
+                            action: `${contentType}.${action}`,
+                        },
                     });
+                    if (permission && !permission.enabled) {
+                        await strapi.query('plugin::users-permissions.permission').update({
+                            where: { id: permission.id },
+                            data: { enabled: true },
+                        });
+                    }
                 }
             }
         }

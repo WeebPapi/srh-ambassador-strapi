@@ -26,7 +26,8 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 2;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
@@ -38,7 +39,10 @@ textarea {
 
 .brand,
 nav button,
-.back {
+.back,
+.session-chip button,
+.mode-switch button,
+.account-panel button {
   border: 0;
   background: transparent;
   color: var(--ink);
@@ -68,6 +72,7 @@ nav {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  justify-content: flex-end;
 }
 
 nav button {
@@ -76,9 +81,35 @@ nav button {
 }
 
 nav button:hover,
-.back:hover {
+.back:hover,
+.session-chip button:hover,
+.mode-switch button:hover,
+.mode-switch button.active {
   background: var(--accent-soft);
   color: var(--accent-dark);
+}
+
+.session-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.session-chip span {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+.session-chip button {
+  padding: 6px 8px;
+  border-radius: 6px;
 }
 
 main {
@@ -145,7 +176,8 @@ h2 {
 .row,
 .detail,
 details,
-.form {
+.form,
+.account-panel {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -199,7 +231,8 @@ details,
 }
 
 .card button,
-.form button {
+.form button,
+.account-panel button {
   border: 0;
   border-radius: 6px;
   padding: 10px 12px;
@@ -209,7 +242,8 @@ details,
 }
 
 .card button:hover,
-.form button:hover {
+.form button:hover,
+.account-panel button:hover {
   background: var(--accent-dark);
 }
 
@@ -293,6 +327,33 @@ textarea {
 }
 
 .status {
+  margin: 0;
+  color: var(--muted);
+}
+
+.mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbf8f5;
+}
+
+.mode-switch button {
+  padding: 9px 10px;
+  border-radius: 6px;
+}
+
+.account-panel {
+  display: grid;
+  gap: 12px;
+  max-width: 520px;
+  padding: 20px;
+}
+
+.account-panel p {
   margin: 0;
   color: var(--muted);
 }
