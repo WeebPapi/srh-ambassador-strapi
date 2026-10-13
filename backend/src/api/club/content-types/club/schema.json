@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "clubs",
+  "info": {
+    "singularName": "club",
+    "pluralName": "clubs",
+    "displayName": "Club"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true },
+    "category": { "type": "string", "required": true },
+    "status": { "type": "enumeration", "enum": ["proposed", "active", "paused"], "default": "active" },
+    "memberCount": { "type": "integer", "default": 0, "min": 0 },
+    "createdFromPoll": { "type": "relation", "relation": "oneToOne", "target": "api::club-poll.club-poll" },
+    "createdByAmbassador": { "type": "relation", "relation": "manyToOne", "target": "api::ambassador.ambassador", "inversedBy": "clubs" },
+    "members": { "type": "relation", "relation": "manyToMany", "target": "plugin::users-permissions.user" },
+    "events": { "type": "relation", "relation": "oneToMany", "target": "api::event.event", "mappedBy": "club" }
+  }
+}

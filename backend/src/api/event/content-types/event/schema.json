@@ -14,7 +14,9 @@
     "dateTime": { "type": "datetime", "required": true },
     "locationOrLink": { "type": "string", "required": true },
     "description": { "type": "text", "required": true },
-    "eventType": { "type": "enumeration", "enum": ["online_qa", "campus_tour", "webinar", "welcome", "fair"], "required": true },
-    "ambassadors": { "type": "relation", "relation": "manyToMany", "target": "api::ambassador.ambassador", "inversedBy": "events" }
+    "eventType": { "type": "enumeration", "enum": ["online_qa", "campus_tour", "webinar", "welcome", "fair", "club_meetup"], "required": true },
+    "interestedCount": { "type": "integer", "default": 0, "min": 0 },
+    "ambassadors": { "type": "relation", "relation": "manyToMany", "target": "api::ambassador.ambassador", "inversedBy": "events" },
+    "club": { "type": "relation", "relation": "manyToOne", "target": "api::club.club", "inversedBy": "events" }
   }
 }

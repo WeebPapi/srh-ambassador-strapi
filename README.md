@@ -10,6 +10,8 @@ Headless CMS implementation for the SRH Ambassador digital service platform usin
   - Countries/Regions
   - Languages
   - Events
+  - Clubs
+  - Club Polls
   - Student Inquiries
   - FAQs
   - FAQ Categories
@@ -20,9 +22,12 @@ Headless CMS implementation for the SRH Ambassador digital service platform usin
   - `/ambassadors`
   - `/ambassadors/:id`
   - `/programs`
+  - `/clubs`
   - `/events`
+  - `/ambassador-dashboard`
   - `/faq`
   - `/contact`
+- English/German frontend language toggle for the demo flow
 - Documentation for setup, API, roles, ER model, comparison, and reflection
 
 ## Run Locally
@@ -59,11 +64,15 @@ Open the frontend at `http://localhost:5173`.
 - `GET http://localhost:1337/api/ambassadors?populate=*`
 - `GET http://localhost:1337/api/programs?populate=*`
 - `GET http://localhost:1337/api/events?populate=*`
+- `GET http://localhost:1337/api/clubs?populate=*`
+- `GET http://localhost:1337/api/club-polls?populate=*`
 - `GET http://localhost:1337/api/faqs?populate=*`
 - `POST http://localhost:1337/api/student-inquiries`
+- Authenticated ambassadors can create club polls, clubs, and club events.
 
 ## Known Limitations
 
 - Ambassador self-editing is documented as a role/policy concept. A production version should add authenticated user-to-ambassador ownership checks.
+- The ambassador dashboard uses Strapi authenticated permissions plus a frontend role check. A production version should enforce ambassador ownership and poll conversion rules in Strapi policies.
 - The seed script is intentionally simple and may create duplicate sample rows if run repeatedly on a non-empty database.
 - The frontend is an MVP demonstration, not a full SRH production design system.

@@ -1,17 +1,22 @@
 import srhLogo from '../assets/srh-logo.png';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
+import { isAmbassadorUser } from '../services/cms';
 
 const navItems = [
-  { path: '/ambassadors', label: 'Ambassadors' },
-  { path: '/programs', label: 'Programs' },
-  { path: '/events', label: 'Events' },
-  { path: '/faq', label: 'FAQ' },
-  { path: '/contact', label: 'Contact' },
-  { path: '/account', label: 'Account' },
+  { path: '/ambassadors', labelKey: 'ambassadors' },
+  { path: '/programs', labelKey: 'programs' },
+  { path: '/clubs', labelKey: 'clubs' },
+  { path: '/events', labelKey: 'events' },
+  { path: '/faq', labelKey: 'faq' },
+  { path: '/contact', labelKey: 'contact' },
+  { path: '/account', labelKey: 'account' },
 ];
 
 export function Topbar({ navigate }) {
   const { user, logout } = useAuth();
+  const { t } = useLanguage();
+  const ambassador = isAmbassadorUser(user);
 
   return (
     <header className="topbar">
@@ -22,14 +27,15 @@ export function Topbar({ navigate }) {
       <nav>
         {navItems.map((item) => (
           <button key={item.path} onClick={() => navigate(item.path)}>
-            {item.label}
+            {t(item.labelKey)}
           </button>
         ))}
+        {ambassador && <button onClick={() => navigate('/ambassador-dashboard')}>{t('ambassadorDashboard')}</button>}
       </nav>
       {user && (
         <div className="session-chip">
           <span>{user.username}</span>
-          <button onClick={logout}>Sign out</button>
+          <button onClick={logout}>{t('signOut')}</button>
         </div>
       )}
     </header>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchHomeData } from '../services/cms';
 
-const initialData = { ambassadors: [], programs: [], events: [], faqs: [] };
+const initialData = { ambassadors: [], programs: [], events: [], clubs: [], clubPolls: [], faqs: [] };
 
 export function useCmsData() {
   const [data, setData] = useState(initialData);

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { PageTitle } from '../components/PageTitle';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
+import { getUserRole, isAmbassadorUser } from '../services/cms';
 
 const emptyForm = { username: '', email: '', password: '' };
 
@@ -15,6 +17,7 @@ function getErrorMessage(error) {
 
 export function AuthPage() {
   const auth = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const [mode, setMode] = useState('login');
   const [form, setForm] = useState(emptyForm);
   const [message, setMessage] = useState('');
@@ -52,12 +55,22 @@ export function AuthPage() {
   };
 
   if (auth.user) {
+    const ambassador = isAmbassadorUser(auth.user);
+
     return (
       <>
-        <PageTitle eyebrow="Account" title="You Are Signed In" />
+        <PageTitle eyebrow={ambassador ? 'Ambassador Account' : 'Student Account'} title={ambassador ? 'Your Ambassador Dashboard Is Available' : 'You Are Signed In'} />
         <section className="account-panel">
           <p><strong>{auth.user.username}</strong></p>
           <p>{auth.user.email}</p>
+          <p>Role: {getUserRole(auth.user) || (ambassador ? 'ambassador demo account' : 'student')}</p>
+          <label className="language-switch account-language">
+            <span>{t('language')}</span>
+            <select value={language} onChange={(event) => setLanguage(event.target.value)}>
+              <option value="en">EN</option>
+              <option value="de">DE</option>
+            </select>
+          </label>
           <button onClick={auth.logout}>Sign out</button>
         </section>
       </>
@@ -68,6 +81,13 @@ export function AuthPage() {
     <>
       <PageTitle eyebrow="Account" title={isRegistering ? 'Create Your Account' : 'Sign In'} />
       <form className="form" onSubmit={onSubmit}>
+        <label className="language-switch account-language">
+          <span>{t('language')}</span>
+          <select value={language} onChange={(event) => setLanguage(event.target.value)}>
+            <option value="en">EN</option>
+            <option value="de">DE</option>
+          </select>
+        </label>
         <div className="mode-switch" role="tablist" aria-label="Account mode">
           <button type="button" className={!isRegistering ? 'active' : ''} onClick={() => setMode('login')}>Sign in</button>
           <button type="button" className={isRegistering ? 'active' : ''} onClick={() => setMode('register')}>Register</button>

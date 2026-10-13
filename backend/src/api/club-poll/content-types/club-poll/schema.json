@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "club_polls",
+  "info": {
+    "singularName": "club-poll",
+    "pluralName": "club-polls",
+    "displayName": "Club Poll"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "clubIdea": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true },
+    "interestCount": { "type": "integer", "default": 0, "min": 0 },
+    "popularityThreshold": { "type": "integer", "default": 20, "min": 1 },
+    "status": { "type": "enumeration", "enum": ["open", "popular", "converted", "closed"], "default": "open" },
+    "createdByAmbassador": { "type": "relation", "relation": "manyToOne", "target": "api::ambassador.ambassador", "inversedBy": "clubPolls" }
+  }
+}

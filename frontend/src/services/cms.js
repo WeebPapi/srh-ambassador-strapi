@@ -12,6 +12,8 @@ export const COLLECTIONS = {
   ambassadors: 'ambassadors',
   programs: 'programs',
   events: 'events',
+  clubs: 'clubs',
+  clubPolls: 'club-polls',
   faqs: 'faqs',
 };
 
@@ -22,7 +24,7 @@ const normalizeRecord = (record) => ({
 });
 
 export function getRecordId(record) {
-  return record.id || record.documentId;
+  return record.documentId || record.id;
 }
 
 function createAuthenticatedClient(jwt) {
@@ -35,10 +37,10 @@ function getPayloadData(payload) {
   return [];
 }
 
-async function fetchJson(path, data, client = publicClient) {
+async function fetchJson(path, data, client = publicClient, method = data ? 'POST' : 'GET') {
   try {
     const response = await client.fetch(path, {
-      method: data ? 'POST' : 'GET',
+      method,
       headers: data ? { 'Content-Type': 'application/json' } : undefined,
       body: data ? JSON.stringify(data) : undefined,
     });
@@ -74,14 +76,16 @@ export async function fetchCollection(name) {
 }
 
 export async function fetchHomeData() {
-  const [ambassadors, programs, events, faqs] = await Promise.all([
+  const [ambassadors, programs, events, clubs, clubPolls, faqs] = await Promise.all([
     fetchCollection(COLLECTIONS.ambassadors),
     fetchCollection(COLLECTIONS.programs),
     fetchCollection(COLLECTIONS.events),
+    fetchCollection(COLLECTIONS.clubs),
+    fetchCollection(COLLECTIONS.clubPolls),
     fetchCollection(COLLECTIONS.faqs),
   ]);
 
-  return { ambassadors, programs, events, faqs };
+  return { ambassadors, programs, events, clubs, clubPolls, faqs };
 }
 
 export async function submitInquiry(data) {
@@ -104,5 +108,64 @@ export async function loginUser({ identifier, password }) {
 }
 
 export async function fetchCurrentUser(jwt) {
-  return fetchJson('users/me', null, createAuthenticatedClient(jwt));
+  return fetchJson('users/me?populate=role', null, createAuthenticatedClient(jwt));
+}
+
+export function getUserRole(user) {
+  return String(user?.role?.type || user?.role?.name || '').toLowerCase();
+}
+
+export function isAmbassadorUser(user) {
+  const role = getUserRole(user);
+  const identity = `${user?.username || ''} ${user?.email || ''}`.toLowerCase();
+  return role.includes('ambassador') || identity.includes('ambassador');
+}
+
+export async function createClubPoll(jwt, data) {
+  return fetchJson('club-polls', { data }, createAuthenticatedClient(jwt));
+}
+
+export async function createClub(jwt, data) {
+  return fetchJson('clubs', { data }, createAuthenticatedClient(jwt));
+}
+
+export async function createClubEvent(jwt, data) {
+  return fetchJson('events', { data }, createAuthenticatedClient(jwt));
+}
+
+async function getWritableRecordId(jwt, collection, record) {
+  if (record.documentId) return record.documentId;
+
+  const numericId = record.id;
+  if (!numericId) return getRecordId(record);
+
+  try {
+    const client = createAuthenticatedClient(jwt);
+    const query = new URLSearchParams({
+      'filters[id][$eq]': String(numericId),
+      'pagination[pageSize]': '1',
+    });
+    const payload = await fetchJson(`${collection}?${query}`, null, client);
+    const match = getPayloadData(payload).map(normalizeRecord)[0];
+    return match?.documentId || numericId;
+  } catch {
+    return numericId;
+  }
+}
+
+async function updateCollectionRecord(jwt, collection, record, data) {
+  const writableId = await getWritableRecordId(jwt, collection, record);
+  return fetchJson(`${collection}/${writableId}`, { data }, createAuthenticatedClient(jwt), 'PUT');
+}
+
+export async function markPollInterested(jwt, poll, interestCount) {
+  return updateCollectionRecord(jwt, 'club-polls', poll, { interestCount });
+}
+
+export async function joinClub(jwt, club, memberCount) {
+  return updateCollectionRecord(jwt, 'clubs', club, { memberCount });
+}
+
+export async function markEventInterested(jwt, event, interestedCount) {
+  return updateCollectionRecord(jwt, 'events', event, { interestedCount });
 }

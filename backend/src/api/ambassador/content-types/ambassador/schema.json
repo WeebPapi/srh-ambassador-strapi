@@ -21,6 +21,8 @@
     "countries": { "type": "relation", "relation": "manyToMany", "target": "api::country.country", "mappedBy": "ambassadors" },
     "languages": { "type": "relation", "relation": "manyToMany", "target": "api::language.language", "mappedBy": "ambassadors" },
     "events": { "type": "relation", "relation": "manyToMany", "target": "api::event.event", "mappedBy": "ambassadors" },
+    "clubs": { "type": "relation", "relation": "oneToMany", "target": "api::club.club", "mappedBy": "createdByAmbassador" },
+    "clubPolls": { "type": "relation", "relation": "oneToMany", "target": "api::club-poll.club-poll", "mappedBy": "createdByAmbassador" },
     "assignedInquiries": { "type": "relation", "relation": "oneToMany", "target": "api::student-inquiry.student-inquiry", "mappedBy": "assignedAmbassador" }
   }
 }

@@ -6,7 +6,8 @@
     "build": "strapi build",
     "develop": "strapi develop",
     "start": "strapi start",
-    "seed": "node scripts/seed.mjs"
+    "seed": "node scripts/seed.mjs",
+    "seed:clubs": "node scripts/seed-clubs.mjs"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "latest",

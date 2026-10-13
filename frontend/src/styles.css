@@ -99,6 +99,23 @@ nav button:hover,
   background: var(--panel);
 }
 
+.language-switch {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.language-switch select {
+  padding: 7px 9px;
+}
+
+.account-language {
+  width: fit-content;
+}
+
 .session-chip span {
   max-width: 120px;
   overflow: hidden;
@@ -232,7 +249,8 @@ details,
 
 .card button,
 .form button,
-.account-panel button {
+.account-panel button,
+.action-button {
   border: 0;
   border-radius: 6px;
   padding: 10px 12px;
@@ -243,8 +261,21 @@ details,
 
 .card button:hover,
 .form button:hover,
-.account-panel button:hover {
+.account-panel button:hover,
+.action-button:hover {
   background: var(--accent-dark);
+}
+
+.action-button:disabled {
+  cursor: default;
+  background: #8b817a;
+}
+
+.inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .row > svg {
@@ -356,6 +387,43 @@ textarea {
 .account-panel p {
   margin: 0;
   color: var(--muted);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.dashboard-grid .form {
+  max-width: none;
+}
+
+.dashboard-section {
+  margin-top: 30px;
+}
+
+.dashboard-status {
+  margin-top: 16px;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.stats span,
+.pill {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  border-radius: 6px;
+  padding: 8px 10px;
+  background: #eef6f8;
+  color: #174955;
+  font-weight: 700;
 }
 
 @media (max-width: 760px) {

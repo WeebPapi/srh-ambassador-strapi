@@ -1,11 +1,14 @@
 import { useMemo, useState } from 'react';
 import { Topbar } from './components/Topbar';
 import { AuthProvider } from './contexts/AuthContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import { useBrowserPath } from './hooks/useBrowserPath';
 import { useCmsData } from './hooks/useCmsData';
 import { AmbassadorDetailPage } from './pages/AmbassadorDetailPage';
 import { AmbassadorsPage } from './pages/AmbassadorsPage';
+import { AmbassadorDashboardPage } from './pages/AmbassadorDashboardPage';
 import { AuthPage } from './pages/AuthPage';
+import { ClubsPage } from './pages/ClubsPage';
 import { ContactPage } from './pages/ContactPage';
 import { EventsPage } from './pages/EventsPage';
 import { FaqPage } from './pages/FaqPage';
@@ -29,22 +32,24 @@ export function App() {
     : null;
 
   return (
-    <AuthProvider>
-      <div>
-        <Topbar navigate={navigate} />
-        <main>
-          {renderPage({
-            data,
-            filteredAmbassadors,
-            navigate,
-            path,
-            query,
-            selectedAmbassador,
-            setQuery,
-          })}
-        </main>
-      </div>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <div>
+          <Topbar navigate={navigate} />
+          <main>
+            {renderPage({
+              data,
+              filteredAmbassadors,
+              navigate,
+              path,
+              query,
+              selectedAmbassador,
+              setQuery,
+            })}
+          </main>
+        </div>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }
 
@@ -58,7 +63,9 @@ function renderPage({ data, filteredAmbassadors, navigate, path, query, selected
   }
 
   if (path === '/programs') return <ProgramsPage programs={data.programs} />;
-  if (path === '/events') return <EventsPage events={data.events} />;
+  if (path === '/clubs') return <ClubsPage clubs={data.clubs} polls={data.clubPolls} events={data.events} navigate={navigate} />;
+  if (path === '/ambassador-dashboard') return <AmbassadorDashboardPage clubs={data.clubs} polls={data.clubPolls} events={data.events} navigate={navigate} />;
+  if (path === '/events') return <EventsPage events={data.events} navigate={navigate} />;
   if (path === '/faq') return <FaqPage faqs={data.faqs} />;
   if (path === '/contact') return <ContactPage programs={data.programs} />;
   if (path === '/account') return <AuthPage />;
